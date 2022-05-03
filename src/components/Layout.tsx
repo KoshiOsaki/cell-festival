@@ -9,7 +9,7 @@ export const Layout: FC<Props> = ({ children }) => {
   return (
     <>
       <Header />
-      <Box pb="300px">{children}</Box>
+      <Box>{children}</Box>
       <Footer />
     </>
   );

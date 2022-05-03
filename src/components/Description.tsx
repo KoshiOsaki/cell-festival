@@ -9,7 +9,9 @@ interface Props {
 export const Description = ({ title, children }: Props) => {
   return (
     <Box>
-      <Text>-{title}-</Text>
+      <Text fontSize="2xl" fontWeight="semibold" my="3">
+        -{title}-
+      </Text>
       <Box>{children}</Box>
     </Box>
   );

@@ -1,7 +1,37 @@
+import { Box, Divider, Flex, Spacer, Stack, Text } from '@chakra-ui/react';
+
 export const Footer = () => {
   return (
-    <div className="bg-black text-pink-600 h-20 mt-20">
-      <p className="py-4 pl-10">&copy; KoshiOsaki</p>
-    </div>
+    <Box bgColor="blue.900" textColor="gray.300" pt="8" pb="6">
+      <Flex justify="center" mb="9">
+        <Stack mx="32">
+          <Text textColor="white" fontSize="xl" fontWeight="semibold">
+            Navigation
+          </Text>
+          <Text>About</Text>
+          <Text>Recent Posts</Text>
+          <Text>Contents</Text>
+          <Text>Projects</Text>
+        </Stack>
+
+        <Stack mx="32">
+          <Text textColor="white" fontSize="xl" fontWeight="semibold">
+            Contact me:
+          </Text>
+          <Text>mryouth.kw@gmail.com</Text>
+          <Text>@cell_festival</Text>
+        </Stack>
+
+        <Stack mx="32">
+          <Text textColor="white" fontSize="xl" fontWeight="semibold">
+            Blogs
+          </Text>
+        </Stack>
+      </Flex>
+      <Divider />
+      <Text mx="20" py="5">
+        &copy;Cell Festival
+      </Text>
+    </Box>
   );
 };
