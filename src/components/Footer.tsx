@@ -1,4 +1,5 @@
 import { Box, Divider, Flex, Spacer, Stack, Text } from '@chakra-ui/react';
+import Link from 'next/link';
 
 export const Footer = () => {
   return (
@@ -24,8 +25,10 @@ export const Footer = () => {
 
         <Stack mx="32">
           <Text textColor="white" fontSize="xl" fontWeight="semibold">
-            Blogs
+            Edit
           </Text>
+          <Link href="/edit">post</Link>
+          <Link href="/view">view</Link>
         </Stack>
       </Flex>
       <Divider />
