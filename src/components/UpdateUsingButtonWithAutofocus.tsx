@@ -1,4 +1,4 @@
-import SimpleMdeReact, { SimpleMdeToCodemirrorEvents } from '../SimpleMdeReact';
+// import SimpleMdeReact, { SimpleMdeToCodemirrorEvents } from '../SimpleMdeReact';
 import { useMemo, useState } from 'react';
 import SimpleMDE from 'easymde';
 
@@ -11,9 +11,9 @@ export const State = (props: any) => {
   );
 };
 
-const events = {
-  focus: () => console.log('focus'),
-} as SimpleMdeToCodemirrorEvents;
+// const events = {
+//   focus: () => console.log('focus'),
+// } as SimpleMdeToCodemirrorEvents;
 
 export const UpdateUsingButtonWithAutofocus = () => {
   const [value, setValue] = useState('I am the initial value. Erase me, or try the button above.');
@@ -26,12 +26,12 @@ export const UpdateUsingButtonWithAutofocus = () => {
     setValue(`Changing text by setting new state. ${counter++}`);
   };
 
-  const autofocusNoSpellcheckerOptions = useMemo(() => {
-    return {
-      autofocus: true,
-      spellChecker: false,
-    } as SimpleMDE.Options;
-  }, []);
+  // const autofocusNoSpellcheckerOptions = useMemo(() => {
+  //   return {
+  //     autofocus: true,
+  //     spellChecker: false,
+  //   } as SimpleMDE.Options;
+  // }, []);
 
   return (
     <div>
@@ -41,7 +41,7 @@ export const UpdateUsingButtonWithAutofocus = () => {
       </button>
       <State value={value} />
       <h4>Update by button</h4>
-      <SimpleMdeReact options={autofocusNoSpellcheckerOptions} value={value} onChange={onChange} events={events} />
+      {/* <SimpleMdeReact options={autofocusNoSpellcheckerOptions} value={value} onChange={onChange} events={events} /> */}
     </div>
   );
 };

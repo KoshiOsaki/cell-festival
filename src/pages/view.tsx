@@ -1,10 +1,10 @@
 import { NextPage, InferGetStaticPropsType } from 'next';
-import { Box, Img, Text } from '@chakra-ui/react';
+import { Box, Button, Flex, Img, Input, Text, Textarea } from '@chakra-ui/react';
 import fs from 'fs';
 import { join } from 'path';
 import matter from 'gray-matter';
 import { useEffect, useState } from 'react';
-import { collection, getDocs, query } from 'firebase/firestore';
+import { addDoc, collection, getDocs, query } from 'firebase/firestore';
 import { getDatabase } from 'firebase/database';
 import { db } from './api/fire';
 import { dataFromDoc } from '../types/data';
@@ -15,6 +15,7 @@ import ChakraUIRenderer from 'chakra-ui-markdown-renderer';
 import { getAllPosts } from './api/md';
 import markdownToHtml from './api/markdownToHtml';
 import Link from 'next/link';
+import { PostCard } from '../components/PostCard';
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
@@ -28,6 +29,8 @@ export const getStaticProps = async () => {
 
 const Test: NextPage<Props> = ({ allPosts }) => {
   const [dataList, setDataList] = useState<any>([]);
+  const [newContent, setNewContent] = useState('');
+
   useEffect(() => {
     (async () => {
       const _dataList: any[] = [];
@@ -41,11 +44,18 @@ const Test: NextPage<Props> = ({ allPosts }) => {
       setDataList(_dataList);
     })();
   }, []);
-  const content = async (data) => await markdownToHtml(data.content);
+  const content = async (data: any) => await markdownToHtml(data.content);
 
   return (
     <ul>
-      {allPosts?.map((post) => (
+      <Flex justifyContent="center" wrap="wrap" mx="200px" my="40px">
+        {dataList.map((data: any) => (
+          <PostCard title={data.title} date={data.createdAt} img={data.img}>
+            {data.abstract}
+          </PostCard>
+        ))}
+      </Flex>
+      {/* {allPosts?.map((post) => (
         <Link href="/docs/example">
           <Box key={post.slug} mt={10}>
             <li>
@@ -59,9 +69,9 @@ const Test: NextPage<Props> = ({ allPosts }) => {
             </li>
           </Box>
         </Link>
-      ))}
+      ))} */}
       {dataList.map((data: any) => (
-        <Box>
+        <Box w="90%" my="200px" mx="auto">
           <Img src={data.img} w="full" h="40vh"></Img>
           <Text textAlign="center" fontWeight="bold" fontSize="5xl">
             {data.title}
@@ -74,7 +84,7 @@ const Test: NextPage<Props> = ({ allPosts }) => {
 
           <div className="md">
             {/* ここでdangerouslySetInnerHTMLを使ってHTMLタグを出力する */}
-            <div dangerouslySetInnerHTML={{ __html: data.content }} />
+            {/* <div dangerouslySetInnerHTML={{ __html: data.content }} /> */}
           </div>
         </Box>
       ))}

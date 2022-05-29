@@ -37,7 +37,7 @@ export const getStaticProps = async ({ params }: any) => {
   };
 };
 
-const Post: NextPage<Props> = ({ post }) => (
+const PostTest: NextPage<Props> = ({ post }) => (
   <>
     <div className="md">
       <h2>{post.title}</h2>
@@ -55,4 +55,4 @@ const Post: NextPage<Props> = ({ post }) => (
   </>
 );
 
-export default Post;
+export default PostTest;
