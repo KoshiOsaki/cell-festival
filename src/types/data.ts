@@ -1,7 +1,7 @@
 import { DocumentData, QueryDocumentSnapshot } from 'firebase/firestore';
 
-export const dataFromDoc = (doc: QueryDocumentSnapshot<DocumentData>) => {
-  const data: any = {
+export const postFromDoc = (doc: QueryDocumentSnapshot<DocumentData>) => {
+  const post: any = {
     dataId: doc.id,
     title: doc.data()['title'],
     img: doc.data()['img'],
@@ -11,5 +11,16 @@ export const dataFromDoc = (doc: QueryDocumentSnapshot<DocumentData>) => {
     abstract: doc.data()['abstract'],
   };
 
-  return data;
+  return post;
 };
+
+export interface Post {
+  dataId: string;
+  abstract: string;
+  author: string;
+  content: string;
+  createdAt: string;
+  img: string;
+  title: string;
+  category: string;
+}

@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { addDoc, collection, getDocs, query } from 'firebase/firestore';
 import { getDatabase } from 'firebase/database';
 import { db } from './api/fire';
-import { dataFromDoc } from '../types/data';
+
 import ReactMde from 'react-mde';
 import 'react-mde/lib/styles/css/react-mde-all.css';
 import ReactMarkdown from 'react-markdown';

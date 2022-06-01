@@ -7,8 +7,6 @@ import { useEffect, useState } from 'react';
 import { addDoc, collection, getDocs, query } from 'firebase/firestore';
 import { getDatabase } from 'firebase/database';
 import { db } from './api/fire';
-import { dataFromDoc } from '../types/data';
-import ReactMde from 'react-mde';
 import 'react-mde/lib/styles/css/react-mde-all.css';
 import ReactMarkdown from 'react-markdown';
 import ChakraUIRenderer from 'chakra-ui-markdown-renderer';
@@ -16,6 +14,7 @@ import { getAllPosts } from './api/md';
 import markdownToHtml from './api/markdownToHtml';
 import Link from 'next/link';
 import { PostCard } from '../components/PostCard';
+import { postFromDoc } from '../types/data';
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
@@ -38,7 +37,7 @@ const Test: NextPage<Props> = ({ allPosts }) => {
       const dataQuery = query(dataCollection);
       const querySnapshot = await getDocs(dataQuery);
       querySnapshot.forEach((doc) => {
-        const _data = dataFromDoc(doc);
+        const _data = postFromDoc(doc);
         _dataList.push(_data);
       });
       setDataList(_dataList);
@@ -50,7 +49,7 @@ const Test: NextPage<Props> = ({ allPosts }) => {
     <ul>
       <Flex justifyContent="center" wrap="wrap" mx="200px" my="40px">
         {dataList.map((data: any) => (
-          <PostCard title={data.title} date={data.createdAt} img={data.img}>
+          <PostCard title={data.title} date={data.createdAt} img={data.img} link={data.dataId}>
             {data.abstract}
           </PostCard>
         ))}
