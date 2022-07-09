@@ -27,7 +27,7 @@ export const Footer = () => {
           <Text textColor="white" fontSize="xl" fontWeight="semibold">
             Edit
           </Text>
-          <Link href="/edit">post</Link>
+          <Link href="/post">post</Link>
           <Link href="/view">view</Link>
         </Stack>
       </Flex>

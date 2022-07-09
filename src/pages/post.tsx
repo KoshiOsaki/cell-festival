@@ -12,7 +12,7 @@ import { Box, Button, Input, Text, Textarea } from '@chakra-ui/react';
 import * as Showdown from 'showdown';
 import { useRouter } from 'next/router';
 
-const Edit: NextPage = () => {
+const Post: NextPage = () => {
   const router = useRouter();
   const [value, setValue] = useState('');
   const [selectedTab, setSelectedTab] = useState<'write' | 'preview'>('write');
@@ -86,4 +86,4 @@ const Edit: NextPage = () => {
   );
 };
 
-export default Edit;
+export default Post;
