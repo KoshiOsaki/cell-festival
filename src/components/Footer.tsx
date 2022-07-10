@@ -1,7 +1,10 @@
 import { Box, Divider, Flex, Spacer, Stack, Text } from '@chakra-ui/react';
 import Link from 'next/link';
+import { useRecoilState } from 'recoil';
+import { currentUserState } from '../store/currentUserState';
 
 export const Footer = () => {
+  const [currentUser, setCurrentUser] = useRecoilState(currentUserState);
   return (
     <Box bgColor="blue.900" textColor="gray.300" pt="8" pb="6">
       <Flex justify="center" mb="9">
@@ -24,11 +27,15 @@ export const Footer = () => {
         </Stack>
 
         <Stack mx="32">
-          <Text textColor="white" fontSize="xl" fontWeight="semibold">
-            Edit
-          </Text>
-          <Link href="/post">post</Link>
-          <Link href="/view">view</Link>
+          {currentUser !== null && (
+            <>
+              <Text textColor="white" fontSize="xl" fontWeight="semibold">
+                AdminUser
+              </Text>
+              <Link href="/post">post</Link>
+              <Link href="/view">view</Link>
+            </>
+          )}
         </Stack>
       </Flex>
       <Divider />

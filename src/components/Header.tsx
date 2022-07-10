@@ -2,12 +2,14 @@ import { Avatar, Box, Flex, HStack, Modal, ModalBody, ModalCloseButton, ModalCon
 import Link from 'next/link';
 import { useState } from 'react';
 import { useRecoilState } from 'recoil';
-import { userState } from '../store/loginUserState';
-import { SignInModal } from './SignInModal';
-import { SignUpModal } from './SignUpModal';
+import { currentUserState } from '../store/currentUserState';
+
+import { SignInModal } from './auth/SignInModal';
+import { SignUpModal } from './auth/SignUpModal';
+import { UserModal } from './UserModal';
 
 export const Header = () => {
-  const [user, setUser] = useRecoilState(userState);
+  const [currentUser, setCurrentUser] = useRecoilState(currentUserState);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [isRegistered, setIsRegistered] = useState(true);
   return (
@@ -22,7 +24,7 @@ export const Header = () => {
           <Text>Recent Posts</Text>
           <Text>Contents</Text>
           <Text>Projects</Text>
-          {user !== null ? <Avatar /> : <Text onClick={onOpen}>Login</Text>}
+          {currentUser !== null ? <UserModal /> : <Text onClick={onOpen}>Login</Text>}
         </HStack>
       </Flex>
       <Modal blockScrollOnMount={false} isOpen={isOpen} onClose={onClose} isCentered size="4xl">

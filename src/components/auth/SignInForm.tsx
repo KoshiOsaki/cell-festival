@@ -9,7 +9,7 @@ import {
 import { auth } from 'firebaseui';
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 
-import '../pages/api/fire'; // Initialize FirebaseApp
+import '../../pages/api/fire'; // Initialize FirebaseApp
 
 const uiConfig: auth.Config = {
   signInFlow: 'popup',

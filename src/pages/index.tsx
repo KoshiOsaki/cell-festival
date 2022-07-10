@@ -10,28 +10,53 @@ import { Layout } from '../components/Layout';
 import { PostCard } from '../components/PostCard';
 import { ProjectCard } from '../components/ProjectCard';
 import '../pages/api/fire'; // Initialize FirebaseApp
-import { userState } from '../store/loginUserState';
-import { app } from '../pages/api/fire';
+import { app, db } from '../pages/api/fire';
+import { currentUserState } from '../store/currentUserState';
+import { postListState } from '../store/postListState';
+import { collection, getDocs, limit, orderBy, query } from 'firebase/firestore';
+import { postFromDoc } from '../types/data';
 
 const Home: NextPage = () => {
-  const [user, setUser] = useRecoilState(userState);
+  const [currentUser, setCurrentUser] = useRecoilState(currentUserState);
+  const [postList, setPostList] = useRecoilState(postListState);
+
+  //セッション管理
   const auth = getAuth(app);
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
+      console.log(user);
       if (user) {
-        // User is signed in, see docs for a list of available properties
-        // https://firebase.google.com/docs/reference/js/firebase.User
+        //TODO:userテーブル作ってそこからname取得する
         const uid = user.uid;
-        // ...
+        setCurrentUser({
+          name: uid,
+          email: user.email,
+        });
       } else {
         // User is signed out
-        // ...
       }
     });
-    console.log(user);
   }, []);
+
+  //投稿データフェッチ
+  useEffect(() => {
+    (async () => {
+      const _dataList: any[] = [];
+      const dataCollection = collection(db, 'mdData');
+      const dataQuery = query(dataCollection, orderBy('createdAt', 'desc'), limit(9));
+      const querySnapshot = await getDocs(dataQuery);
+      querySnapshot.forEach((doc) => {
+        const _data = postFromDoc(doc);
+        _dataList.push(_data);
+      });
+      setPostList(_dataList);
+    })();
+  }, []);
+
+  // TODO:レスポンシブ対応、ヘッダー固定・クリック遷移、アニメーション
   return (
     <Layout>
+      {/* TODO:無理やりすぎるので要修正 */}
       <Box position="absolute" top="0" zIndex="-1">
         <Img src="/biologyTop.jpg" />
         <Box zIndex="1000" left="50%" top="50%" position="absolute" m="-73px" textAlign="center">
@@ -45,6 +70,7 @@ const Home: NextPage = () => {
       <Img src="/biologyTop.jpg" opacity="0" />
 
       <Box>
+        {/* TODO:人数比グラフ */}
         <Box p="10">
           <Text fontWeight="bold" fontSize="4xl" textAlign="center">
             Cell Festival
@@ -99,25 +125,13 @@ const Home: NextPage = () => {
           <Text fontWeight="bold" fontSize="4xl" textAlign="center">
             Recent Posts
           </Text>
+
           <Flex justifyContent="center" wrap="wrap" mx="200px" my="40px">
-            <PostCard title="DNAについて" date="March 29,2022" img="/favicon.ico">
-              <Text>概要 記事の〜</Text>
-            </PostCard>
-            <PostCard title="DNAについて" date="March 29,2022" img="/favicon.ico">
-              <Text>概要 記事の〜</Text>
-            </PostCard>
-            <PostCard title="DNAについて" date="March 29,2022" img="/favicon.ico">
-              <Text>概要 記事の〜</Text>
-            </PostCard>
-            <PostCard title="DNAについて" date="March 29,2022" img="/favicon.ico">
-              <Text>概要 記事の〜</Text>
-            </PostCard>
-            <PostCard title="DNAについて" date="March 29,2022" img="/favicon.ico">
-              <Text>概要 記事の〜</Text>
-            </PostCard>
-            <PostCard title="DNAについて" date="March 29,2022" img="/favicon.ico">
-              <Text>概要 記事の〜</Text>
-            </PostCard>
+            {postList.map((data: any) => (
+              <PostCard title={data.title} date={data.createdAt} img={data.img} link={data.dataId}>
+                {data.abstract}
+              </PostCard>
+            ))}
           </Flex>
         </Box>
         <Box p="10">

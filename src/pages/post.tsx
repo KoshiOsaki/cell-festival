@@ -11,9 +11,12 @@ import ChakraUIRenderer from 'chakra-ui-markdown-renderer';
 import { Box, Button, Input, Text, Textarea } from '@chakra-ui/react';
 import * as Showdown from 'showdown';
 import { useRouter } from 'next/router';
+import { useRecoilState } from 'recoil';
+import { currentUserState } from '../store/currentUserState';
 
 const Post: NextPage = () => {
   const router = useRouter();
+  const [currentUser, setCurrentUser] = useRecoilState(currentUserState);
   const [value, setValue] = useState('');
   const [selectedTab, setSelectedTab] = useState<'write' | 'preview'>('write');
   const [markdownValue, setMarkdownValue] = useState('Initial value');
@@ -35,16 +38,27 @@ const Post: NextPage = () => {
     tasklists: true,
   });
   const onClickAdd = async () => {
+    const getStringFromDate = (date: any): string => {
+      let year_str = date.getFullYear();
+      let month_str = 1 + date.getMonth();
+      let day_str = date.getDate();
+      month_str = ('0' + month_str).slice(-2);
+      day_str = ('0' + day_str).slice(-2);
+      return [year_str, month_str, day_str].join('-');
+    };
+    let date = new Date();
+    let createdAt = getStringFromDate(date);
+
     const ob = {
       title: newPost.title,
-      auther: newPost.author || '名無しさん',
-      createdAt: '2022-05-29',
+      author: newPost.author || currentUser!.name,
+      createdAt,
       img: newPost.img || './noImage.png',
       abstract: newPost.abstract,
       content: value,
     };
     await addDoc(collection(db, 'mdData'), ob);
-    router.push('/view');
+    router.push('/');
   };
   const handleInputChange = (e: any) => {
     const value = e.target.value;
@@ -55,6 +69,14 @@ const Post: NextPage = () => {
   return (
     <>
       <Box p="20">
+        <Box textAlign="center" mt="16">
+          <Box w="500px" mx="auto" my="10">
+            <Text>タイトル</Text>
+            <Input value={newPost.title} onChange={handleInputChange} name="title" />
+            <Text>概要</Text>
+            <Textarea value={newPost.abstract} onChange={handleInputChange} name="abstract" />
+          </Box>
+        </Box>
         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
           <div style={{ width: '50%', marginRight: 10 }}>
             <ReactMde
@@ -70,14 +92,8 @@ const Post: NextPage = () => {
             <ReactMarkdown components={ChakraUIRenderer()} children={value} skipHtml />
           </div>
         </div>
-        <Box textAlign="center" mt="16">
-          <Box w="500px">
-            <Text>タイトル</Text>
-            <Input value={newPost.title} onChange={handleInputChange} name="title" />
-            <Text>概要</Text>
-            <Textarea value={newPost.abstract} onChange={handleInputChange} name="abstract" />
-          </Box>
-          <Button w="500px" onClick={onClickAdd}>
+        <Box textAlign="center">
+          <Button w="500px" colorScheme="green" onClick={onClickAdd} my="10">
             Post
           </Button>
         </Box>
