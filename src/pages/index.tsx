@@ -1,13 +1,35 @@
 import { ChevronDownIcon } from '@chakra-ui/icons';
-import { Box, Button, Flex, HStack, Img, Stack, Text } from '@chakra-ui/react';
+import { Box, Button, Flex, HStack, Img, Input, Stack, Text } from '@chakra-ui/react';
+import { Auth, createUserWithEmailAndPassword, getAuth, onAuthStateChanged, signInWithEmailAndPassword } from 'firebase/auth';
 import type { NextPage } from 'next';
+import { useEffect, useState } from 'react';
+import { useRecoilState } from 'recoil';
 import { ContentCard } from '../components/ContentCard';
-import { Description } from '../components/Description';
+import { TopDescription } from '../components/TopDescription';
 import { Layout } from '../components/Layout';
 import { PostCard } from '../components/PostCard';
 import { ProjectCard } from '../components/ProjectCard';
+import '../pages/api/fire'; // Initialize FirebaseApp
+import { userState } from '../store/loginUserState';
+import { app } from '../pages/api/fire';
 
 const Home: NextPage = () => {
+  const [user, setUser] = useRecoilState(userState);
+  const auth = getAuth(app);
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        // User is signed in, see docs for a list of available properties
+        // https://firebase.google.com/docs/reference/js/firebase.User
+        const uid = user.uid;
+        // ...
+      } else {
+        // User is signed out
+        // ...
+      }
+    });
+    console.log(user);
+  }, []);
   return (
     <Layout>
       <Box position="absolute" top="0" zIndex="-1">
@@ -29,27 +51,27 @@ const Home: NextPage = () => {
           </Text>
           <Flex justify="center" px="24" py="9">
             <Stack w="40%" mx="10">
-              <Description title="platform for biology">
+              <TopDescription title="platform for biology">
                 <Text>
                   Cell
                   Festivalは、生物系の知見を必要とする学習機会のプラットフォーム確立を目的にしているサイトです。分子生物学や細胞生物学などを基盤に、様々な学問のまとめを提供するだけでなく、演習問題とその解答例を提供することで、アウトプットが難しい生物学の学習の手助けを目標にしています。
                 </Text>
-              </Description>
-              <Description title="objective">
+              </TopDescription>
+              <TopDescription title="objective">
                 <Text>
                   Cell
                   Festivalは、生物系の知見を必要とする学習機会のプラットフォーム確立を目的にしているサイトです。分子生物学や細胞生物学などを基盤に、様々な学問のまとめを提供するだけでなく、演習問題とその解答例を提供することで、アウトプットが難しい生物学の学習の手助けを目標にしています。
                 </Text>
-              </Description>
-              <Description title="recruitment">
+              </TopDescription>
+              <TopDescription title="recruitment">
                 <Text>
                   Cell
                   Festivalは、生物系の知見を必要とする学習機会のプラットフォーム確立を目的にしているサイトです。分子生物学や細胞生物学などを基盤に、様々な学問のまとめを提供するだけでなく、演習問題とその解答例を提供することで、アウトプットが難しい生物学の学習の手助けを目標にしています。
                 </Text>
-              </Description>
+              </TopDescription>
             </Stack>
             <Box w="40%">
-              <Description title="Organization Chart">
+              <TopDescription title="Organization Chart">
                 <Text fontSize="xl" fontWeight="semibold">
                   Members&apos; status
                 </Text>
@@ -68,7 +90,7 @@ const Home: NextPage = () => {
                   <Img src="favicon.ico" w="100px" />
                   <Img src="favicon.ico" w="100px" />
                 </HStack>
-              </Description>
+              </TopDescription>
             </Box>
           </Flex>
         </Box>

@@ -19,7 +19,7 @@ const Post: NextPage = () => {
   const [markdownValue, setMarkdownValue] = useState('Initial value');
   const [newPost, setNewPost] = useState({
     title: '',
-    auther: '',
+    author: '',
     createdAt: '',
     img: undefined,
     abstract: '',
@@ -37,7 +37,7 @@ const Post: NextPage = () => {
   const onClickAdd = async () => {
     const ob = {
       title: newPost.title,
-      auther: newPost.auther || '名無しさん',
+      auther: newPost.author || '名無しさん',
       createdAt: '2022-05-29',
       img: newPost.img || './noImage.png',
       abstract: newPost.abstract,

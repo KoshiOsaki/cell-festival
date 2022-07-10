@@ -6,7 +6,7 @@ interface Props {
   children: ReactNode;
 }
 
-export const Description = ({ title, children }: Props) => {
+export const TopDescription = ({ title, children }: Props) => {
   return (
     <Box>
       <Text fontSize="2xl" fontWeight="semibold" my="3">

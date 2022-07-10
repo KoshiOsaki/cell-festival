@@ -16,17 +16,17 @@ import Link from 'next/link';
 import { PostCard } from '../components/PostCard';
 import { postFromDoc } from '../types/data';
 
-type Props = InferGetStaticPropsType<typeof getStaticProps>;
+// type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
-export const getStaticProps = async () => {
-  const allPosts = getAllPosts(['slug', 'title', 'date', 'tags']);
+// export const getStaticProps = async () => {
+//   const allPosts = getAllPosts(['slug', 'title', 'date', 'tags']);
 
-  return {
-    props: { allPosts },
-  };
-};
+//   return {
+//     props: { allPosts },
+//   };
+// };
 
-const Test: NextPage<Props> = ({ allPosts }) => {
+const Test: NextPage = ({}) => {
   const [dataList, setDataList] = useState<any>([]);
   const [newContent, setNewContent] = useState('');
 

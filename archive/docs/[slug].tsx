@@ -1,8 +1,8 @@
 import ChakraUIRenderer from 'chakra-ui-markdown-renderer';
 import { NextPage, InferGetStaticPropsType } from 'next';
 import ReactMarkdown from 'react-markdown';
-import markdownToHtml from '../api/markdownToHtml';
-import { getAllPosts, getPostBySlug } from '../api/md';
+import markdownToHtml from '../../src/pages/api/markdownToHtml';
+import { getAllPosts, getPostBySlug } from '../../src/pages/api/md';
 
 type Props = InferGetStaticPropsType<typeof getStaticProps>;
 
