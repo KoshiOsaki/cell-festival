@@ -55,7 +55,7 @@ interface Props {
 const Post: NextPage<Props> = ({ post }: Props) => {
   return (
     <>
-      <Box>
+      <Box w="80%" mx="auto">
         <Img src={post.img} w="full" h="40vh"></Img>
         <Text textAlign="center" fontWeight="bold" fontSize="5xl">
           {post.title}

@@ -13,8 +13,9 @@ import '../pages/api/fire'; // Initialize FirebaseApp
 import { app, db } from '../pages/api/fire';
 import { currentUserState } from '../store/currentUserState';
 import { postListState } from '../store/postListState';
-import { collection, getDocs, limit, orderBy, query } from 'firebase/firestore';
+import { collection, doc, getDoc, getDocs, limit, orderBy, query, where } from 'firebase/firestore';
 import { postFromDoc } from '../types/data';
+import { User, userFromDoc } from '../types/user';
 
 const Home: NextPage = () => {
   const [currentUser, setCurrentUser] = useRecoilState(currentUserState);
@@ -24,14 +25,13 @@ const Home: NextPage = () => {
   const auth = getAuth(app);
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
-      console.log(user);
       if (user) {
-        //TODO:userテーブル作ってそこからname取得する
-        const uid = user.uid;
-        setCurrentUser({
-          name: uid,
-          email: user.email,
-        });
+        (async () => {
+          const userDocRef = doc(db, 'users', user.uid);
+          const userDocData = await getDoc(userDocRef);
+          const _currentUser: User = userFromDoc(userDocData);
+          setCurrentUser(_currentUser);
+        })();
       } else {
         // User is signed out
       }
@@ -126,7 +126,7 @@ const Home: NextPage = () => {
             Recent Posts
           </Text>
 
-          <Flex justifyContent="center" wrap="wrap" mx="200px" my="40px">
+          <Flex wrap="wrap" mx="200px" my="40px">
             {postList.map((data: any) => (
               <PostCard title={data.title} date={data.createdAt} img={data.img} link={data.dataId}>
                 {data.abstract}

@@ -1,6 +1,6 @@
 import { NextPage } from 'next';
 import { useEffect, useState } from 'react';
-import { addDoc, collection, getDocs, query } from 'firebase/firestore';
+import { addDoc, collection, getDocs, query, Timestamp } from 'firebase/firestore';
 import { getDatabase } from 'firebase/database';
 import { db } from './api/fire';
 
@@ -46,8 +46,9 @@ const Post: NextPage = () => {
       day_str = ('0' + day_str).slice(-2);
       return [year_str, month_str, day_str].join('-');
     };
-    let date = new Date();
-    let createdAt = getStringFromDate(date);
+    let now: Date = new Date();
+    let createdAt: Timestamp = Timestamp.fromDate(now);
+    // let createdAt = getStringFromDate(date);
 
     const ob = {
       title: newPost.title,

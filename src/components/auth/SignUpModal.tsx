@@ -1,9 +1,11 @@
 import { Box, Button, FormControl, FormLabel, Input } from '@chakra-ui/react';
 import { createUserWithEmailAndPassword, getAuth } from 'firebase/auth';
+import { addDoc, collection, doc, setDoc, Timestamp } from 'firebase/firestore';
 import { useState } from 'react';
 import { useRecoilState } from 'recoil';
-import { app } from '../../pages/api/fire';
+import { app, db } from '../../pages/api/fire';
 import { currentUserState } from '../../store/currentUserState';
+import { User } from '../../types/user';
 
 export const SignUpModal = ({ onClose, setIsRegistered }: any) => {
   const [currentUser, setCurrentUser] = useRecoilState(currentUserState);
@@ -25,7 +27,19 @@ export const SignUpModal = ({ onClose, setIsRegistered }: any) => {
         // Signed in
         const user = userCredential.user;
         setCurrentUser(userData);
-        // ...
+
+        let now: Date = new Date();
+        let createdAt: Timestamp = Timestamp.fromDate(now);
+        console.log(user.uid);
+        (async () => {
+          const data = {
+            uid: user.uid,
+            name: userData.name,
+            email: userData.email,
+            createdAt,
+          };
+          setDoc(doc(db, 'users', user.uid), data);
+        })();
       })
       .catch((error) => {
         const errorCode = error.code;
