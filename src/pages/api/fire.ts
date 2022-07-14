@@ -8,13 +8,13 @@ import { doc, DocumentData, DocumentReference, Firestore, getFirestore } from 'f
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: 'AIzaSyCpOE1AIe12WGe3cpr0ggsuQZIZqoALUkI',
-  authDomain: 'cellfestival-7810c.firebaseapp.com',
-  projectId: 'cellfestival-7810c',
-  storageBucket: 'cellfestival-7810c.appspot.com',
-  messagingSenderId: '909537285687',
-  appId: '1:909537285687:web:4772c743d38b12275c11b2',
-  measurementId: 'G-L2FFQ2GMGK',
+  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
+  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGEING_SENDER_ID,
+  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
+  measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID,
 };
 
 // Initialize Firebase
