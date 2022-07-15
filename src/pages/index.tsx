@@ -50,6 +50,8 @@ const Home: NextPage = () => {
         _dataList.push(_data);
       });
       setPostList(_dataList);
+
+      //notion
     })();
   }, []);
 
