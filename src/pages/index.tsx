@@ -14,12 +14,16 @@ import { app, db } from '../pages/api/fire';
 import { currentUserState } from '../store/currentUserState';
 import { postListState } from '../store/postListState';
 import { collection, doc, getDoc, getDocs, limit, orderBy, query, where } from 'firebase/firestore';
-import { postFromDoc } from '../types/data';
+import { postFromDoc, projectFromDoc, tagFromDoc } from '../types/data';
 import { User, userFromDoc } from '../types/user';
+import { tagListState } from '../store/tagListState';
+import { projectListState } from '../store/projectListState';
 
 const Home: NextPage = () => {
   const [currentUser, setCurrentUser] = useRecoilState(currentUserState);
   const [postList, setPostList] = useRecoilState(postListState);
+  const [tagList, setTagList] = useRecoilState(tagListState);
+  const [projectList, setProjectList] = useRecoilState(projectListState);
 
   //セッション管理
   const auth = getAuth(app);
@@ -38,7 +42,7 @@ const Home: NextPage = () => {
     });
   }, []);
 
-  //投稿データフェッチ
+  //投稿データ、project一覧、タグ一覧フェッチ
   useEffect(() => {
     (async () => {
       const _dataList: any[] = [];
@@ -51,7 +55,25 @@ const Home: NextPage = () => {
       });
       setPostList(_dataList);
 
-      //notion
+      const _projectList: any[] = [];
+      const projectCollection = collection(db, 'projects');
+      const projectQuery = query(projectCollection, orderBy('createdAt', 'desc'));
+      const projectQuerySnapshot = await getDocs(projectQuery);
+      projectQuerySnapshot.forEach((doc) => {
+        const _project = projectFromDoc(doc);
+        _projectList.push(_project);
+      });
+      setProjectList(_projectList);
+
+      const _tagList: any[] = [];
+      const tagCollection = collection(db, 'tags');
+      const tagQuery = query(tagCollection, orderBy('createdAt', 'desc'));
+      const tagQuerySnapshot = await getDocs(tagQuery);
+      tagQuerySnapshot.forEach((doc) => {
+        const _tag = tagFromDoc(doc);
+        _tagList.push(_tag);
+      });
+      setTagList(_tagList);
     })();
   }, []);
 

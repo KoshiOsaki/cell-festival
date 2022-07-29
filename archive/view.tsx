@@ -6,15 +6,15 @@ import matter from 'gray-matter';
 import { useEffect, useState } from 'react';
 import { addDoc, collection, getDocs, query } from 'firebase/firestore';
 import { getDatabase } from 'firebase/database';
-import { db } from './api/fire';
+import { db } from '../src/pages/api/fire';
 import 'react-mde/lib/styles/css/react-mde-all.css';
 import ReactMarkdown from 'react-markdown';
 import ChakraUIRenderer from 'chakra-ui-markdown-renderer';
-import { getAllPosts } from './api/md';
-import markdownToHtml from './api/markdownToHtml';
+import { getAllPosts } from '../src/pages/api/md';
 import Link from 'next/link';
-import { PostCard } from '../components/PostCard';
-import { postFromDoc } from '../types/data';
+import { PostCard } from '../src/components/PostCard';
+import { postFromDoc } from '../src/types/data';
+import markdownToHtml from '../src/pages/api/markdownToHtml';
 
 // type Props = InferGetStaticPropsType<typeof getStaticProps>;
 

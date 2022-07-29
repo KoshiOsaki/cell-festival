@@ -4,6 +4,7 @@ import { collection, doc, getDoc, getDocs, query } from 'firebase/firestore';
 import { NextPage } from 'next';
 import ReactMarkdown from 'react-markdown';
 import { Post, postFromDoc } from '../../types/data';
+import { dateToString } from '../../utils/date';
 import { db } from '../api/fire';
 
 export const getStaticPaths = async () => {
@@ -55,21 +56,15 @@ interface Props {
 const Post: NextPage<Props> = ({ post }: Props) => {
   return (
     <>
-      <Box w="80%" mx="auto">
-        <Img src={post.img} w="full" h="40vh"></Img>
+      <Box w="80%" mx="auto" my="200px">
         <Text textAlign="center" fontWeight="bold" fontSize="5xl">
-          {post.title}
+          {post.title} a
         </Text>
         <Text textAlign="center" textColor="gray.500">
-          posted on {post.createdAt}
+          posted on {dateToString(post.createdAt)}
         </Text>
         <ul></ul>
         <ReactMarkdown components={ChakraUIRenderer()} children={post.content} skipHtml />
-
-        <div className="md">
-          {/* ここでdangerouslySetInnerHTMLを使ってHTMLタグを出力する
-          <div dangerouslySetInnerHTML={{ __html: data.content }} /> */}
-        </div>
       </Box>
     </>
   );
