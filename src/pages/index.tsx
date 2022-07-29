@@ -14,10 +14,13 @@ import { app, db } from '../pages/api/fire';
 import { currentUserState } from '../store/currentUserState';
 import { postListState } from '../store/postListState';
 import { collection, doc, getDoc, getDocs, limit, orderBy, query, where } from 'firebase/firestore';
-import { postFromDoc, projectFromDoc, tagFromDoc } from '../types/data';
+
 import { User, userFromDoc } from '../types/user';
 import { tagListState } from '../store/tagListState';
 import { projectListState } from '../store/projectListState';
+import { Post, postFromDoc } from '../types/post';
+import { Project, projectFromDoc } from '../types/project';
+import { Tag, tagFromDoc } from '../types/tag';
 
 const Home: NextPage = () => {
   const [currentUser, setCurrentUser] = useRecoilState(currentUserState);
@@ -45,7 +48,7 @@ const Home: NextPage = () => {
   //投稿データ、project一覧、タグ一覧フェッチ
   useEffect(() => {
     (async () => {
-      const _dataList: any[] = [];
+      const _dataList: Post[] = [];
       const dataCollection = collection(db, 'mdData');
       const dataQuery = query(dataCollection, orderBy('createdAt', 'desc'), limit(9));
       const querySnapshot = await getDocs(dataQuery);
@@ -55,7 +58,7 @@ const Home: NextPage = () => {
       });
       setPostList(_dataList);
 
-      const _projectList: any[] = [];
+      const _projectList: Project[] = [];
       const projectCollection = collection(db, 'projects');
       const projectQuery = query(projectCollection, orderBy('createdAt', 'desc'));
       const projectQuerySnapshot = await getDocs(projectQuery);
@@ -65,7 +68,7 @@ const Home: NextPage = () => {
       });
       setProjectList(_projectList);
 
-      const _tagList: any[] = [];
+      const _tagList: Tag[] = [];
       const tagCollection = collection(db, 'tags');
       const tagQuery = query(tagCollection, orderBy('createdAt', 'desc'));
       const tagQuerySnapshot = await getDocs(tagQuery);

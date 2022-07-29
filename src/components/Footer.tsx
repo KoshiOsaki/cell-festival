@@ -33,7 +33,6 @@ export const Footer = () => {
                 AdminUser
               </Text>
               <Link href="/post">post</Link>
-              <Link href="/view">view</Link>
             </>
           )}
         </Stack>

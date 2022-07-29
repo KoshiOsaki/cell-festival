@@ -2,8 +2,10 @@ import { Box, Img, Text } from '@chakra-ui/react';
 import ChakraUIRenderer from 'chakra-ui-markdown-renderer';
 import { collection, doc, getDoc, getDocs, query } from 'firebase/firestore';
 import { NextPage } from 'next';
+import { useState } from 'react';
 import ReactMarkdown from 'react-markdown';
-import { Post, postFromDoc } from '../../types/data';
+import { Post, postFromDoc } from '../../types/post';
+
 import { dateToString } from '../../utils/date';
 import { db } from '../api/fire';
 
@@ -54,14 +56,16 @@ interface Props {
 }
 
 const Post: NextPage<Props> = ({ post }: Props) => {
+  const date = new Date(post.createdAt); //なぜか文字列でcreatedAtがくるのでDateに変換
+
   return (
     <>
       <Box w="80%" mx="auto" my="200px">
         <Text textAlign="center" fontWeight="bold" fontSize="5xl">
-          {post.title} a
+          {post.title}
         </Text>
         <Text textAlign="center" textColor="gray.500">
-          posted on {dateToString(post.createdAt)}
+          posted on {dateToString(date)}
         </Text>
         <ul></ul>
         <ReactMarkdown components={ChakraUIRenderer()} children={post.content} skipHtml />

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { State } from '../src/components/UpdateUsingButtonWithAutofocus';
+import { State } from './UpdateUsingButtonWithAutofocus';
 // import SimpleMdeReact from '../SimpleMdeReact';
 
 export const CleanupByButton = () => {

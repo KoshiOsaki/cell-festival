@@ -1,5 +1,5 @@
 import { atom } from 'recoil';
-import { Post } from '../types/data';
+import { Post } from '../types/post';
 
 export const postListState = atom<Post[]>({
   key: 'postListState',
