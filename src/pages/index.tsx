@@ -4,7 +4,6 @@ import { Auth, createUserWithEmailAndPassword, getAuth, onAuthStateChanged, sign
 import type { NextPage } from 'next';
 import { useEffect, useState } from 'react';
 import { useRecoilState } from 'recoil';
-import { ContentCard } from '../components/ContentCard';
 import { TopDescription } from '../components/TopDescription';
 import { Layout } from '../components/Layout';
 import { PostCard } from '../components/PostCard';
@@ -21,6 +20,8 @@ import { projectListState } from '../store/projectListState';
 import { Post, postFromDoc } from '../types/post';
 import { Project, projectFromDoc } from '../types/project';
 import { Tag, tagFromDoc } from '../types/tag';
+import { dateToString } from '../utils/date';
+import { TagCard } from '../components/TagCard';
 
 const Home: NextPage = () => {
   const [currentUser, setCurrentUser] = useRecoilState(currentUserState);
@@ -50,7 +51,7 @@ const Home: NextPage = () => {
     (async () => {
       const _dataList: Post[] = [];
       const dataCollection = collection(db, 'mdData');
-      const dataQuery = query(dataCollection, orderBy('createdAt', 'desc'), limit(9));
+      const dataQuery = query(dataCollection, orderBy('createdAt', 'desc'), limit(6));
       const querySnapshot = await getDocs(dataQuery);
       querySnapshot.forEach((doc) => {
         const _data = postFromDoc(doc);
@@ -163,93 +164,28 @@ const Home: NextPage = () => {
         </Box>
         <Box p="10">
           <Text fontWeight="bold" fontSize="4xl" textAlign="center">
-            Contents
+            Projects
           </Text>
           <Flex justifyContent="center" wrap="wrap" mx="200px" my="40px">
-            <ContentCard icon="favicon.ico" title="Summary" content="学習用の要点を提供するページです。各分野のまとめを掲載しています。" />
-            <ContentCard icon="favicon.ico" title="Summary" content="学習用の要点を提供するページです。各分野のまとめを掲載しています。" />
-            <ContentCard icon="favicon.ico" title="Summary" content="学習用の要点を提供するページです。各分野のまとめを掲載しています。" />
-            <ContentCard icon="favicon.ico" title="Summary" content="学習用の要点を提供するページです。各分野のまとめを掲載しています。" />
-            <ContentCard icon="favicon.ico" title="Summary" content="学習用の要点を提供するページです。各分野のまとめを掲載しています。" />
-            <ContentCard icon="favicon.ico" title="Summary" content="学習用の要点を提供するページです。各分野のまとめを掲載しています。" />
+            {projectList.map((project) => (
+              <ProjectCard
+                icon={project.projectIcon}
+                title={project.projectName}
+                date={dateToString(project.createdAt)}
+                memberNums={4}
+                content="分子生物学、細胞生物学を中心とした分野の解説を行います。"
+              />
+            ))}
           </Flex>
         </Box>
         <Box bgColor="gray.200" p="10">
           <Text fontWeight="bold" fontSize="4xl" textAlign="center">
-            Projects
+            Tags
           </Text>
-          <Flex my="3" mx="auto" justify="center">
-            <Button rounded="none" bgColor="gray.500" textColor="white" _hover={{ bgColor: 'teal.300' }}>
-              All
-            </Button>
-            <Button rounded="none" bgColor="gray.500" textColor="white" _hover={{ bgColor: 'teal.300' }}>
-              Study
-            </Button>
-            <Button rounded="none" bgColor="gray.500" textColor="white" _hover={{ bgColor: 'teal.300' }}>
-              Academic
-            </Button>
-            <Button rounded="none" bgColor="gray.500" textColor="white" _hover={{ bgColor: 'teal.300' }}>
-              Development
-            </Button>
-            <Button rounded="none" bgColor="gray.500" textColor="white" _hover={{ bgColor: 'teal.300' }}>
-              Business
-            </Button>
-            <Button rounded="none" bgColor="gray.500" textColor="white" _hover={{ bgColor: 'teal.300' }}>
-              Seminar
-            </Button>
-            <Button rounded="none" bgColor="gray.500" textColor="white" _hover={{ bgColor: 'teal.300' }}>
-              Hobby
-            </Button>
-          </Flex>
           <Flex justifyContent="center" wrap="wrap" mx="200px" my="40px">
-            <ProjectCard
-              icon="favicon.ico"
-              title="生物学の基礎解説"
-              date="March 2022"
-              memberNums={4}
-              content="分子生物学、細胞生物学を中心とした分野の解説を行います。"
-              topic={['study', 'seminar', 'summary']}
-            />
-            <ProjectCard
-              icon="favicon.ico"
-              title="生物学の基礎解説"
-              date="March 2022"
-              memberNums={4}
-              content="分子生物学、細胞生物学を中心とした分野の解説を行います。"
-              topic={['study', 'seminar', 'summary']}
-            />
-            <ProjectCard
-              icon="favicon.ico"
-              title="生物学の基礎解説"
-              date="March 2022"
-              memberNums={4}
-              content="分子生物学、細胞生物学を中心とした分野の解説を行います。"
-              topic={['study', 'seminar', 'summary']}
-            />
-            <ProjectCard
-              icon="favicon.ico"
-              title="生物学の基礎解説"
-              date="March 2022"
-              memberNums={4}
-              content="分子生物学、細胞生物学を中心とした分野の解説を行います。"
-              topic={['study', 'seminar', 'summary']}
-            />
-            <ProjectCard
-              icon="favicon.ico"
-              title="生物学の基礎解説"
-              date="March 2022"
-              memberNums={4}
-              content="分子生物学、細胞生物学を中心とした分野の解説を行います。"
-              topic={['study', 'seminar', 'summary']}
-            />
-            <ProjectCard
-              icon="favicon.ico"
-              title="生物学の基礎解説"
-              date="March 2022"
-              memberNums={4}
-              content="分子生物学、細胞生物学を中心とした分野の解説を行います。"
-              topic={['study', 'seminar', 'summary']}
-            />
+            {tagList.map((tag) => (
+              <TagCard title={tag.tagName} content="" />
+            ))}
           </Flex>
         </Box>
       </Box>

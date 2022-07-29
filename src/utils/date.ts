@@ -1,4 +1,6 @@
-export const dateToString = (date: Date): string => {
+export const dateToString = (_date: Date): string => {
+  let date = new Date(_date); //なぜか_dateがDate型でない時があるため
+
   let year_str = date.getFullYear();
   let month_str: any = 1 + date.getMonth();
   let day_str: any = date.getDate();

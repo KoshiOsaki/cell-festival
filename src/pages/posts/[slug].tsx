@@ -56,8 +56,6 @@ interface Props {
 }
 
 const Post: NextPage<Props> = ({ post }: Props) => {
-  const date = new Date(post.createdAt); //なぜか文字列でcreatedAtがくるのでDateに変換
-
   return (
     <>
       <Box w="80%" mx="auto" my="200px">
@@ -65,7 +63,7 @@ const Post: NextPage<Props> = ({ post }: Props) => {
           {post.title}
         </Text>
         <Text textAlign="center" textColor="gray.500">
-          posted on {dateToString(date)}
+          posted on {dateToString(post.createdAt)}
         </Text>
         <ul></ul>
         <ReactMarkdown components={ChakraUIRenderer()} children={post.content} skipHtml />
